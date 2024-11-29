@@ -4,6 +4,7 @@ import { Chess } from "chess.js";
 import useSocket from "../hooks/useSocket";
 import Chessboard from "../components/chess-board";
 import Loading from "../components/match-loading";
+import toast from "react-hot-toast";
 
 export const INIT_GAME = "init_game";
 export const MOVE = "move";
@@ -27,7 +28,7 @@ const GamePage = () => {
       switch (message.type) {
         case INIT_GAME:
           setIsLoading(false);
-          alert("Lets play!!");
+          toast.success("Game started 👍");
           setChess(new Chess());
           console.log("init_game: ", message);
           setMyColor(message.payload.color);
@@ -37,7 +38,7 @@ const GamePage = () => {
           setBoard(chess.board());
           break;
         case GAMEOVER:
-          alert(message.payload);
+          toast.error("Game over 😑");
           setChess(new Chess());
           setBoard(new Chess().board());
           setMyColor(null);
@@ -45,7 +46,7 @@ const GamePage = () => {
           break;
         case QUIT:
           setMyColor(null);
-          alert("Opponent quit the game 😑");
+          toast.error("Opponent quit the game 😑");
           setChess(new Chess());
           setBoard(new Chess().board());
           break;
